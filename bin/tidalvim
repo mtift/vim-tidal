@@ -11,6 +11,8 @@ TIDAL_BOOT_PATH=${TIDAL_BOOT_PATH:-""}
 TIDAL_TEMPO_IP=${TIDAL_TEMPO_IP:-""}
 GHCI=${GHCI:-""}
 
+BOOT_PATH=${BOOT_PATH:-"/home/mtift/bin/tidal/BootTidal.hs"}
+
 args=${@:-$FILE}
 
 # Check if tmux session "tidal" is running, attach only
@@ -20,4 +22,6 @@ $TMUX -2 attach-session -t $SESSION || $TMUX -2 \
   split-window -v -t $SESSION   \; \
   send-keys -t 0 "$VIM $args" C-m   \; \
   send-keys -t 1 "TIDAL_BOOT_PATH=$TIDAL_BOOT_PATH TIDAL_TEMPO_IP=$TIDAL_TEMPO_IP GHCI=$GHCI tidal" C-m   \; \
+  load-buffer $BOOT_PATH \; \
+  paste-buffer -d -t 1 \; \
   select-pane -t 0
